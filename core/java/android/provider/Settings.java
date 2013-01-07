@@ -5529,6 +5529,17 @@ public final class Settings {
             }
         };
 
+
+        /**
+         * Whether to launch default music player when headset plugged in
+         * @hide
+         */
+        public static final String HEADSET_CONNECT_PLAYER = "headset_connect_player";
+
+        /** @hide */
+        private static final Validator HEADSET_CONNECT_PLAYER_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
         /**
          * Status bar brightness control.
          * @hide
@@ -5654,6 +5665,7 @@ public final class Settings {
             FINGERPRINT_SUCCESS_VIB,
             FORCE_SHOW_NAVBAR,
             HEADS_UP_NOTIFICATION_SNOOZE,
+            HEADSET_CONNECT_PLAYER,
             LOCK_SHOW_STATUS_BAR,
             LOCKSCREEN_ALBUM_ART_FILTER,
             LOCKSCREEN_BATTERY_INFO,
@@ -5836,6 +5848,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_BLUR);
             PRIVATE_SETTINGS.add(HEADS_UP_NOTIFICATION_SNOOZE);
+            PRIVATE_SETTINGS.add(HEADSET_CONNECT_PLAYER);
             PRIVATE_SETTINGS.add(KEY_HOME_LONG_PRESS_ACTION);
             PRIVATE_SETTINGS.add(KEY_HOME_DOUBLE_TAP_ACTION);
             PRIVATE_SETTINGS.add(KEY_MENU_LONG_PRESS_ACTION);
@@ -5994,6 +6007,7 @@ public final class Settings {
             VALIDATORS.put(FINGERPRINT_SUCCESS_VIB, FINGERPRINT_SUCCESS_VIB_VALIDATOR);
             VALIDATORS.put(FORCE_SHOW_NAVBAR, FORCE_SHOW_NAVBAR_VALIDATOR);
             VALIDATORS.put(HEADS_UP_NOTIFICATION_SNOOZE,HEADS_UP_NOTIFICATION_SNOOZE_VALIDATOR);
+            VALIDATORS.put(HEADSET_CONNECT_PLAYER, HEADSET_CONNECT_PLAYER_VALIDATOR);
             VALIDATORS.put(LOCK_SHOW_STATUS_BAR, LOCK_SHOW_STATUS_BAR_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_ALBUM_ART_FILTER, LOCKSCREEN_ALBUM_ART_FILTER_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_BATTERY_INFO, LOCKSCREEN_BATTERY_INFO_VALIDATOR);
