@@ -15545,6 +15545,12 @@ public final class Settings {
         private static final Validator LOCKSCREEN_ENABLE_POWER_MENU_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+         * Audio focus mode for ringtones when headset is connected
+         * @hide
+         */
+        public static final String RINGTONE_FOCUS_MODE = "ringtone_focus_mode";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
