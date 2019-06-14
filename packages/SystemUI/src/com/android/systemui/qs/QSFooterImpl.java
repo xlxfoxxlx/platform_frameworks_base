@@ -55,6 +55,7 @@ import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.settingslib.Utils;
 import com.android.settingslib.development.DevelopmentSettingsEnabler;
 import com.android.settingslib.drawable.UserIconDrawable;
+import com.android.systemui.aosip.AOSiPSettingsService;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.R.dimen;
@@ -74,7 +75,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 public class QSFooterImpl extends FrameLayout implements QSFooter,
-        OnClickListener, OnLongClickListener , OnUserInfoChangedListener, Tunable {
+        OnClickListener, OnLongClickListener , OnUserInfoChangedListener,
+        AOSiPSettingsService.AOSiPSettingsObserver, Tunable {
 
     private static final String TAG = "QSFooterImpl";
     public static final String QS_SHOW_AUTO_BRIGHTNESS_BUTTON = "qs_show_auto_brightness_button";
@@ -112,7 +114,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 
     private ImageView mAutoBrightnessIcon;
     protected View mAutoBrightnessContainer;
-    private boolean mShowAutoBrightnessButton = false;
+    private boolean mShowAutoBrightnessButton;
     private boolean mAutoBrightOn;
 
     @Inject
@@ -251,11 +253,13 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         super.onAttachedToWindow();
         final TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(this, QS_SHOW_AUTO_BRIGHTNESS_BUTTON);
+        Dependency.get(AOSiPSettingsService.class).addIntObserver(this, Settings.System.SCREEN_BRIGHTNESS_MODE);
     }
 
     @Override
     @VisibleForTesting
     public void onDetachedFromWindow() {
+        Dependency.get(AOSiPSettingsService.class).removeObserver(this);
         Dependency.get(TunerService.class).removeTunable(this);
         setListening(false);
         super.onDetachedFromWindow();
@@ -264,7 +268,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (QS_SHOW_AUTO_BRIGHTNESS_BUTTON.equals(key)) {
-            setHideAutoBright(newValue != null && Integer.parseInt(newValue) == 0);
+            setHideAutoBright(newValue == null || Integer.parseInt(newValue) == 0);
         }
     }
 
@@ -308,13 +312,6 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
             updateClickabilities();
             setClickable(false);
         });
-        if (mShowAutoBrightnessButton) {
-            mAutoBrightOn = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
-                    UserHandle.USER_CURRENT) != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
-            setAutoBrightnessIcon(mAutoBrightOn);
-        }
     }
 
     private void updateClickabilities() {
@@ -325,13 +322,11 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 
     private void updateVisibilities() {
         mSettingsContainer.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
-        mAutoBrightnessContainer.setVisibility(mShowAutoBrightnessButton ? View.GONE : View.VISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
         mMultiUserSwitch.setVisibility(showUserSwitcher() ? View.VISIBLE : View.INVISIBLE);
         mEditContainer.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
         mSettingsButton.setVisibility(isDemo || !mExpanded ? View.VISIBLE : View.VISIBLE);
-        mAutoBrightnessIcon.setVisibility(mShowAutoBrightnessButton
-                || !mExpanded ? View.INVISIBLE : View.VISIBLE);
+        mAutoBrightnessContainer.setVisibility(!mShowAutoBrightnessButton || !mExpanded ? View.GONE : View.VISIBLE);
     }
 
     private boolean showUserSwitcher() {
@@ -422,13 +417,35 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     }
 
     private void setHideAutoBright(boolean hide) {
-        mAutoBrightnessIcon.setVisibility(hide ? View.GONE : View.VISIBLE);
-        mShowAutoBrightnessButton = hide;
+        mShowAutoBrightnessButton = !hide;
+        mAutoBrightnessContainer.setVisibility(!mShowAutoBrightnessButton ? View.GONE : View.VISIBLE);
+        if (mShowAutoBrightnessButton) {
+            setAutoBrightnessIcon();
+            Dependency.get(AOSiPSettingsService.class).addIntObserver(this, Settings.System.SCREEN_BRIGHTNESS_MODE);
+        } else {
+            Dependency.get(AOSiPSettingsService.class).removeObserver(this);
+        }
+    }
+
+    private void setAutoBrightnessIcon() {
+        boolean automatic = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
+                UserHandle.USER_CURRENT) != Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
+        setAutoBrightnessIcon(automatic);
     }
 
     private void setAutoBrightnessIcon(boolean automatic) {
+        mAutoBrightOn = automatic;
         mAutoBrightnessIcon.setImageResource(automatic ?
                 com.android.systemui.R.drawable.ic_qs_brightness_auto_on :
                 com.android.systemui.R.drawable.ic_qs_brightness_auto_off);
+    }
+
+    @Override
+    public void onIntSettingChanged(String key, Integer newValue) {
+        if (key.equals(Settings.System.SCREEN_BRIGHTNESS_MODE)) {
+            setAutoBrightnessIcon();
+        }
     }
 }
