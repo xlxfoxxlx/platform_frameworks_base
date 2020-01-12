@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.graphics.Point;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.UserHandle;
