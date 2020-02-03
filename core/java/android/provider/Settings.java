@@ -5554,6 +5554,17 @@ public final class Settings {
         public static final Validator STATUS_BAR_BRIGHTNESS_CONTROL_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+         * Which Vibration Pattern to use
+         * 0: dzzz-dzzz
+         * 1: dzzz-da
+         * 2: mm-mm-mm
+         * 3: da-da-dzzz
+         * 4: da-dzzz-da
+         * @hide
+         */
+        public static final String RINGTONE_VIBRATION_PATTERN = "ringtone_vibration_pattern";
+
+        /**
          * Blur behind QS.
          * @hide
          */
@@ -5561,7 +5572,7 @@ public final class Settings {
         /** @hide */
         public static final Validator QS_BLUR_ENABLED_VALIDATOR = BOOLEAN_VALIDATOR;
 
-      /**
+        /**
          * Controls whether to show R style notification headers
          * @hide
          */
