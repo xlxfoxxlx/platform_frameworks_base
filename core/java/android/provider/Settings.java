@@ -5146,6 +5146,12 @@ public final class Settings {
                BOOLEAN_VALIDATOR;
 
         /**
+         * Whether to show IME space when navbar pill is hidden
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_IME_SPACE = "navigation_bar_ime_space";
+
+        /**
          * Whether to show heads up on new music tracks
          * @hide
          */
