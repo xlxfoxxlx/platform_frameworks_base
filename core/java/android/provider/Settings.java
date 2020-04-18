@@ -5244,6 +5244,17 @@ public final class Settings {
               new SettingsValidators.InclusiveIntegerRangeValidator(0, 1200000);
 
         /**
+         * Whether to have translucent background on lockscreen notifications
+         * @hide
+         */
+        public static final String LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED
+                = "lockscreen_translucent_notifications_bg_enabled";
+
+        /** @hide */
+        private static final Validator LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
          * Whether the phone vibrates on call connect
          * @hide
          */
@@ -5683,6 +5694,7 @@ public final class Settings {
             LOCKSCREEN_BATTERY_INFO,
             LOCKSCREEN_MEDIA_BLUR,
             LOCKSCREEN_MEDIA_METADATA,
+            LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED,
             NAVIGATION_BAR_ARROW_KEYS,
             NAVIGATION_HANDLE_WIDTH,
 	    NOTIFICATION_HEADERS,
@@ -5860,6 +5872,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_ALBUM_ART_FILTER);
             PRIVATE_SETTINGS.add(LOCKSCREEN_BATTERY_INFO);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_BLUR);
+            PRIVATE_SETTINGS.add(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED);
             PRIVATE_SETTINGS.add(HEADS_UP_NOTIFICATION_SNOOZE);
             PRIVATE_SETTINGS.add(HEADSET_CONNECT_PLAYER);
             PRIVATE_SETTINGS.add(KEY_HOME_LONG_PRESS_ACTION);
@@ -6027,6 +6040,7 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_BATTERY_INFO, LOCKSCREEN_BATTERY_INFO_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_MEDIA_BLUR, LOCKSCREEN_MEDIA_BLUR_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_MEDIA_METADATA, LOCKSCREEN_MEDIA_METADATA_VALIDATOR);
+            VALIDATORS.put(LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED, LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED_VALIDATOR);
             VALIDATORS.put(NAVIGATION_BAR_ARROW_KEYS,
                     NAVIGATION_BAR_ARROW_KEYS_VALIDATOR);
             VALIDATORS.put(NAVIGATION_HANDLE_WIDTH, NAVIGATION_HANDLE_WIDTH_VALIDATOR);
