@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 
 import com.android.internal.annotations.VisibleForTesting;
+import com.android.internal.util.aosip.aosipUtils;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.aosip.AOSiPSettingsService;
@@ -165,6 +166,7 @@ public class NavigationBarInflaterView extends FrameLayout
         Dependency.get(TunerService.class).addTunable(this, NAV_BAR_INVERSE);
         Dependency.get(TunerService.class).addTunable(this, NAV_BAR_VIEWS);
         Dependency.get(AOSiPSettingsService.class).addIntObserver(this, Settings.System.NAVIGATION_BAR_ARROW_KEYS);
+        Dependency.get(AOSiPSettingsService.class).addIntObserver(this, Settings.System.NAVIGATION_BAR_IME_SPACE);
     }
 
     @Override
@@ -536,8 +538,12 @@ public class NavigationBarInflaterView extends FrameLayout
     }
 
     private boolean showDpadArrowKeys() {
-        return Settings.System.getIntForUser(getContext().getContentResolver(),
-                Settings.System.NAVIGATION_BAR_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
+        return ((Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.NAVIGATION_BAR_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0)
+                && ((Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.NAVIGATION_BAR_IME_SPACE, 1, UserHandle.USER_CURRENT) != 0)
+                || (aosipUtils.isThemeEnabled("com.android.internal.systemui.navbar.twobutton")
+                || aosipUtils.isThemeEnabled("com.android.internal.systemui.navbar.threebutton"))));
     }
 
     @Override
