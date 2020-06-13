@@ -6691,16 +6691,16 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 NavbarUtilities.toggleSplitScreen();
                 break;
             case NavbarUtilities.KEY_ACTION_FLASHLIGHT:
-                aosipUtils.toggleFlashLight();
+                aosipUtils.toggleCameraFlash();
                 break;
             case NavbarUtilities.KEY_ACTION_CLEAR_NOTIFICATIONS:
-                aosipUtils.toggleClearNotifications();
+                aosipUtils.clearAllNotifications();
                 break;
             case NavbarUtilities.KEY_ACTION_VOLUME_PANEL:
                 aosipUtils.toggleVolumePanel(mContext);
                 break;
             case NavbarUtilities.KEY_ACTION_SCREEN_OFF:
-                aosipUtils.toggleScreenOff(mContext);
+                aosipUtils.switchScreenOff(mContext);
                 break;
             case NavbarUtilities.KEY_ACTION_NOTIFICATIONS:
                 aosipUtils.toggleNotifications();
@@ -6826,7 +6826,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 aosipUtils.toggleRingerModes(mContext);
                 break;
             case NavbarUtilities.KEY_ACTION_KILL_APP:
-                ActionUtils.killForegroundApp();
+                aosipUtils.killForegroundApp();
                 break;
         }
     }

@@ -181,6 +181,7 @@ import com.android.systemui.qs.QSPanel;
 import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
+import com.android.systemui.settings.CurrentUserTracker;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 import com.android.systemui.shared.system.PackageManagerWrapper;
 import com.android.systemui.shared.system.TaskStackChangeListener;
