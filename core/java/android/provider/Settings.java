@@ -4776,12 +4776,6 @@ public final class Settings {
         private static final Validator POCKET_JUDGE_VALIDATOR =
                 BOOLEAN_VALIDATOR;
 
-        /** @hide */
-        public static final String BACK_GESTURE_BLOCK_IME = "back_gesture_block_ime";
-        /** @hide */
-        private static final Validator BACK_GESTURE_BLOCK_IME_VALIDATOR =
-                BOOLEAN_VALIDATOR;
-
         /**
          * Whether to show arrow keys in navigation bar
          * @hide
@@ -5676,7 +5670,6 @@ public final class Settings {
             AOD_NOTIFICATION_PULSE_TIMEOUT,
             ASPECT_RATIO_APPS_ENABLED,
             ASPECT_RATIO_APPS_LIST,
-            BACK_GESTURE_BLOCK_IME,
             BACK_GESTURE_HEIGHT,
             CHARGING_ANIMATION,
             DOUBLE_TAP_SLEEP_GESTURE,
@@ -5695,7 +5688,7 @@ public final class Settings {
             LOCKSCREEN_TRANSLUCENT_NOTIFICATIONS_BG_ENABLED,
             NAVIGATION_BAR_ARROW_KEYS,
             NAVIGATION_HANDLE_WIDTH,
-	    NOTIFICATION_HEADERS,
+            NOTIFICATION_HEADERS,
             NOTIFICATION_LIGHT_PULSE,
             NOTIFICATION_PULSE,
             NOTIFICATION_PULSE_ACCENT,
@@ -5851,7 +5844,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AOD_NOTIFICATION_PULSE_TIMEOUT);
             PRIVATE_SETTINGS.add(ASPECT_RATIO_APPS_ENABLED);
             PRIVATE_SETTINGS.add(ASPECT_RATIO_APPS_LIST);
-            PRIVATE_SETTINGS.add(BACK_GESTURE_BLOCK_IME);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HEIGHT);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ENABLE);
             PRIVATE_SETTINGS.add(BUTTON_BACKLIGHT_ON_TOUCH_ONLY);
@@ -6019,7 +6011,6 @@ public final class Settings {
             VALIDATORS.put(AOD_NOTIFICATION_PULSE_TIMEOUT, AOD_NOTIFICATION_PULSE_TIMEOUT_VALIDATOR);
             VALIDATORS.put(ASPECT_RATIO_APPS_ENABLED, ASPECT_RATIO_APPS_ENABLED_VALIDATOR);
             VALIDATORS.put(ASPECT_RATIO_APPS_LIST, ASPECT_RATIO_APPS_LIST_VALIDATOR);
-            VALIDATORS.put(BACK_GESTURE_BLOCK_IME,BACK_GESTURE_BLOCK_IME_VALIDATOR);
             VALIDATORS.put(BACK_GESTURE_HEIGHT, BACK_GESTURE_HEIGHT_VALIDATOR);
             VALIDATORS.put(CHARGING_ANIMATION, CHARGING_ANIMATION_VALIDATOR);
             VALIDATORS.put(DOUBLE_TAP_SLEEP_GESTURE,
