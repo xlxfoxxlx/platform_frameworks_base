@@ -57,8 +57,7 @@ public class AmbientDisplayConfiguration {
                 || tapGestureEnabled(user)
                 || doubleTapGestureEnabled(user)
                 || isAmbientTickerEnabled(user)
-                || isAnyFlashlightActionEnabled(user)
-                || pulseOnCustomDozeEventEnabled(user);
+                || isAnyFlashlightActionEnabled(user);
     }
 
     /** {@hide} */
@@ -70,12 +69,6 @@ public class AmbientDisplayConfiguration {
     /** {@hide} */
     public boolean pulseOnNotificationAvailable() {
         return ambientDisplayAvailable();
-    }
-
-    /** {@hide} */
-    private boolean pulseOnCustomDozeEventEnabled(int user) {
-        return (Settings.System.getInt(mContext.getContentResolver(), Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) != 0)
-                && pulseOnNotificationAvailable();
     }
 
     /** {@hide} */
@@ -161,7 +154,8 @@ public class AmbientDisplayConfiguration {
 
     private boolean pulseOnCustomDozeEventEnabled(int user) {
         return (Settings.System.getInt(mContext.getContentResolver(), Settings.System.CUSTOM_AMBIENT_POCKETMODE_GESTURE, 0) != 0
-                || Settings.System.getInt(mContext.getContentResolver(), Settings.System.CUSTOM_AMBIENT_HANDWAVE_GESTURE, 0) != 0)
+                || Settings.System.getInt(mContext.getContentResolver(), Settings.System.CUSTOM_AMBIENT_HANDWAVE_GESTURE, 0) != 0
+                || Settings.System.getInt(mContext.getContentResolver(), Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) != 0)
                 && pulseOnNotificationAvailable();
     }
 
