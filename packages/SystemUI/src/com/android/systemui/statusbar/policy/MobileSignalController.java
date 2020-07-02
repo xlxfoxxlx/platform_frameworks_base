@@ -117,6 +117,9 @@ public class MobileSignalController extends SignalController<
     // Volte Icon Style
     private int mVoLTEstyle;
 
+    // VoWiFi Icon
+    private boolean mVoWIFIicon;
+
     // TODO: Reduce number of vars passed in, if we have the NetworkController, probably don't
     // need listener lists anymore.
     public MobileSignalController(Context context, Config config, boolean hasMobileData,
@@ -204,6 +207,9 @@ public class MobileSignalController extends SignalController<
            resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.VOLTE_ICON_STYLE),
                   false,this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.SHOW_VOWIFI_ICON),
+                  false,this, UserHandle.USER_ALL);
            updateSettings();
         }
 
@@ -227,6 +233,9 @@ public class MobileSignalController extends SignalController<
         mVoLTEstyle = Settings.System.getIntForUser(resolver,
                 Settings.System.VOLTE_ICON_STYLE, 0,
                 UserHandle.USER_CURRENT);
+        mVoWIFIicon = Settings.System.getIntForUser(resolver,
+                Settings.System.SHOW_VOWIFI_ICON, 0,
+                UserHandle.USER_CURRENT) == 1;
 
         mapIconSets();
         updateTelephony();
@@ -545,7 +554,7 @@ public class MobileSignalController extends SignalController<
         int volteIcon = (mShowVolteIcon && mConfig.showVolteIcon
                 && isVolteSwitchOn()) ? getVolteResId() : 0;
         MobileIconGroup vowifiIconGroup = getVowifiIconGroup();
-        if (mConfig.showVowifiIcon && vowifiIconGroup != null) {
+        if vowifiIconGroup != null {
             typeIcon = vowifiIconGroup.mDataType;
             statusIcon = new IconState(true,
                     mCurrentState.enabled && !mCurrentState.airplaneMode ? statusIcon.icon : 0,
@@ -868,7 +877,8 @@ public class MobileSignalController extends SignalController<
 
     private boolean isVowifiAvailable() {
         return mCurrentState.voiceCapable &&  mCurrentState.imsRegistered
-                && getDataNetworkType() == TelephonyManager.NETWORK_TYPE_IWLAN;
+                && getDataNetworkType() == TelephonyManager.NETWORK_TYPE_IWLAN
+                && mVoWIFIicon;
     }
 
     private MobileIconGroup getVowifiIconGroup() {
