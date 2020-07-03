@@ -103,8 +103,6 @@ public class MobileSignalController extends SignalController<
     // Some specific carriers have 5GE network which is special LTE CA network.
     private static final int NETWORK_TYPE_LTE_CA_5GE = TelephonyManager.MAX_NETWORK_TYPE + 1;
 
-    private int mCallState = TelephonyManager.CALL_STATE_IDLE;
-
     private ImsManager mImsManager;
     private ImsManager.Connector mImsManagerConnector;
     private int mCallState = TelephonyManager.CALL_STATE_IDLE;
@@ -551,10 +549,9 @@ public class MobileSignalController extends SignalController<
                 && mCurrentState.activityOut;
         showDataIcon &= mCurrentState.isDefault || dataDisabled;
         int typeIcon = (showDataIcon || mConfig.alwaysShowDataRatIcon) ? icons.mDataType : 0;
-        int volteIcon = (mShowVolteIcon && mConfig.showVolteIcon
-                && isVolteSwitchOn()) ? getVolteResId() : 0;
+        int volteIcon = isVolteSwitchOn() ? getVolteResId() : 0;
         MobileIconGroup vowifiIconGroup = getVowifiIconGroup();
-        if vowifiIconGroup != null {
+        if (vowifiIconGroup != null) {
             typeIcon = vowifiIconGroup.mDataType;
             statusIcon = new IconState(true,
                     mCurrentState.enabled && !mCurrentState.airplaneMode ? statusIcon.icon : 0,
@@ -854,6 +851,10 @@ public class MobileSignalController extends SignalController<
         return !mPhone.isDataCapable();
     }
 
+    private boolean isCallIdle() {
+        return mCallState == TelephonyManager.CALL_STATE_IDLE;
+    }
+
     private int getVoiceNetworkType() {
         return mServiceState != null
                 ? mServiceState.getVoiceNetworkType() : TelephonyManager.NETWORK_TYPE_UNKNOWN;
@@ -978,15 +979,6 @@ public class MobileSignalController extends SignalController<
             updateDataSim();
 	    updateTelephony();
 	}
-
-	@Override
-        public void onCallStateChanged(int state, String phoneNumber) {
-            if (DEBUG) {
-                Log.d(mTag, "onCallStateChanged: state=" + state);
-            }
-            mCallState = state;
-            updateTelephony();
-        }
 
         @Override
         public void onCallStateChanged(int state, String phoneNumber) {
